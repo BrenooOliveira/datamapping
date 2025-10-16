@@ -1,0 +1,15 @@
+Tabela Final,DataFrame,Origem,Transformação
+vw_vendas_cidade,clientes_df,data/clientes.csv,—
+vw_vendas_cidade,enderecos_df,data/enderecos.csv,—
+vw_vendas_cidade,pedidos_df,data/pedidos.csv,—
+vw_vendas_cidade,itens_df,data/itens_pedido.csv,—
+vw_vendas_cidade,produtos_df,data/produtos.csv,—
+vw_vendas_cidade,clientes_df,—,withColumn
+vw_vendas_cidade,enderecos_df,—,withColumn
+vw_vendas_cidade,produtos_df,—,withColumn
+vw_vendas_cidade,pedidos_df,—,filter
+vw_vendas_cidade,produtos_df,—,filter
+vw_vendas_cidade,cliente_endereco_df,clientes_df,join
+vw_vendas_cidade,pedidos_clientes_df,pedidos_df,join
+vw_vendas_cidade,itens_produtos_df,itens_df,join
+vw_vendas_cidade,fato_vendas_df,pedidos_clientes_df,join

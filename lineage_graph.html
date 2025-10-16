@@ -1,0 +1,80 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vis-network@latest/styles/vis-network.css" type="text/css" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vis-network@latest/dist/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 800px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "#f4a261", "id": "data/clientes.csv", "label": "data/clientes.csv", "shape": "box", "title": "\u003cb\u003edata/clientes.csv\u003c/b\u003e\u003cbr\u003eType: file\u003cbr\u003eIn: 0 | Out: 1"}, {"color": "#264653", "id": "clientes_df", "label": "clientes_df", "shape": "dot", "title": "\u003cb\u003eclientes_df\u003c/b\u003e\u003cbr\u003eType: dataframe\u003cbr\u003eIn: 1 | Out: 2"}, {"color": "#e76f51", "id": "vw_vendas_cidade", "label": "vw_vendas_cidade", "shape": "diamond", "title": "\u003cb\u003evw_vendas_cidade\u003c/b\u003e\u003cbr\u003eType: final_table\u003cbr\u003eIn: 9 | Out: 0"}, {"color": "#f4a261", "id": "data/enderecos.csv", "label": "data/enderecos.csv", "shape": "box", "title": "\u003cb\u003edata/enderecos.csv\u003c/b\u003e\u003cbr\u003eType: file\u003cbr\u003eIn: 0 | Out: 1"}, {"color": "#264653", "id": "enderecos_df", "label": "enderecos_df", "shape": "dot", "title": "\u003cb\u003eenderecos_df\u003c/b\u003e\u003cbr\u003eType: dataframe\u003cbr\u003eIn: 1 | Out: 1"}, {"color": "#f4a261", "id": "data/pedidos.csv", "label": "data/pedidos.csv", "shape": "box", "title": "\u003cb\u003edata/pedidos.csv\u003c/b\u003e\u003cbr\u003eType: file\u003cbr\u003eIn: 0 | Out: 1"}, {"color": "#264653", "id": "pedidos_df", "label": "pedidos_df", "shape": "dot", "title": "\u003cb\u003epedidos_df\u003c/b\u003e\u003cbr\u003eType: dataframe\u003cbr\u003eIn: 1 | Out: 2"}, {"color": "#f4a261", "id": "data/itens_pedido.csv", "label": "data/itens_pedido.csv", "shape": "box", "title": "\u003cb\u003edata/itens_pedido.csv\u003c/b\u003e\u003cbr\u003eType: file\u003cbr\u003eIn: 0 | Out: 1"}, {"color": "#264653", "id": "itens_df", "label": "itens_df", "shape": "dot", "title": "\u003cb\u003eitens_df\u003c/b\u003e\u003cbr\u003eType: dataframe\u003cbr\u003eIn: 1 | Out: 2"}, {"color": "#f4a261", "id": "data/produtos.csv", "label": "data/produtos.csv", "shape": "box", "title": "\u003cb\u003edata/produtos.csv\u003c/b\u003e\u003cbr\u003eType: file\u003cbr\u003eIn: 0 | Out: 1"}, {"color": "#264653", "id": "produtos_df", "label": "produtos_df", "shape": "dot", "title": "\u003cb\u003eprodutos_df\u003c/b\u003e\u003cbr\u003eType: dataframe\u003cbr\u003eIn: 1 | Out: 1"}, {"color": "#264653", "id": "cliente_endereco_df", "label": "cliente_endereco_df", "shape": "dot", "title": "\u003cb\u003ecliente_endereco_df\u003c/b\u003e\u003cbr\u003eType: dataframe\u003cbr\u003eIn: 1 | Out: 1"}, {"color": "#264653", "id": "pedidos_clientes_df", "label": "pedidos_clientes_df", "shape": "dot", "title": "\u003cb\u003epedidos_clientes_df\u003c/b\u003e\u003cbr\u003eType: dataframe\u003cbr\u003eIn: 1 | Out: 2"}, {"color": "#264653", "id": "itens_produtos_df", "label": "itens_produtos_df", "shape": "dot", "title": "\u003cb\u003eitens_produtos_df\u003c/b\u003e\u003cbr\u003eType: dataframe\u003cbr\u003eIn: 1 | Out: 1"}, {"color": "#264653", "id": "fato_vendas_df", "label": "fato_vendas_df", "shape": "dot", "title": "\u003cb\u003efato_vendas_df\u003c/b\u003e\u003cbr\u003eType: dataframe\u003cbr\u003eIn: 1 | Out: 1"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": "data/clientes.csv", "label": "", "title": "", "to": "clientes_df"}, {"arrows": "to", "from": "clientes_df", "label": "withColumn", "title": "withColumn", "to": "vw_vendas_cidade"}, {"arrows": "to", "from": "clientes_df", "label": "join", "title": "join", "to": "cliente_endereco_df"}, {"arrows": "to", "from": "data/enderecos.csv", "label": "", "title": "", "to": "enderecos_df"}, {"arrows": "to", "from": "enderecos_df", "label": "withColumn", "title": "withColumn", "to": "vw_vendas_cidade"}, {"arrows": "to", "from": "data/pedidos.csv", "label": "", "title": "", "to": "pedidos_df"}, {"arrows": "to", "from": "pedidos_df", "label": "filter", "title": "filter", "to": "vw_vendas_cidade"}, {"arrows": "to", "from": "pedidos_df", "label": "join", "title": "join", "to": "pedidos_clientes_df"}, {"arrows": "to", "from": "data/itens_pedido.csv", "label": "", "title": "", "to": "itens_df"}, {"arrows": "to", "from": "itens_df", "label": "", "title": "", "to": "vw_vendas_cidade"}, {"arrows": "to", "from": "itens_df", "label": "join", "title": "join", "to": "itens_produtos_df"}, {"arrows": "to", "from": "data/produtos.csv", "label": "", "title": "", "to": "produtos_df"}, {"arrows": "to", "from": "produtos_df", "label": "filter", "title": "filter", "to": "vw_vendas_cidade"}, {"arrows": "to", "from": "cliente_endereco_df", "label": "join", "title": "join", "to": "vw_vendas_cidade"}, {"arrows": "to", "from": "pedidos_clientes_df", "label": "join", "title": "join", "to": "vw_vendas_cidade"}, {"arrows": "to", "from": "pedidos_clientes_df", "label": "join", "title": "join", "to": "fato_vendas_df"}, {"arrows": "to", "from": "itens_produtos_df", "label": "join", "title": "join", "to": "vw_vendas_cidade"}, {"arrows": "to", "from": "fato_vendas_df", "label": "join", "title": "join", "to": "vw_vendas_cidade"}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {"physics": {"forceAtlas2Based": {"gravitationalConstant": -50, "springLength": 100}, "solver": "forceAtlas2Based"}, "manipulation": {"enabled": false}};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
